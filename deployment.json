@@ -1,48 +1,24 @@
 {
-  "version": "4.0.0",
-  "edition": "three-creeds-20261024-v4-GTstudy",
-  "date": "2026-10-24",
+  "version": "5.0.0",
+  "edition": "three-creeds-20261114-v5-GTstudy",
+  "date": "2026-11-14",
   "repositoryId": 1423064988,
   "repository": "https://github.com/07-Je-GT-Love-Personal-20260918/three-creeds-GTstudy",
   "githubPagesUrl": "https://07-je-gt-love-personal-20260918.github.io/three-creeds-GTstudy/",
-  "surgeUrl": "https://three-creeds-20261024-v4-gtstudy.surge.sh/",
-  "vercelUrl": "https://three-creeds-20261024-v4-gtstudy.vercel.app/",
-  "vercelStatus": "Production publicly accessible; GitHub Actions continuous deployment configured for the verified project.",
+  "surgeUrl": "https://three-creeds-20261114-v5-gtstudy.surge.sh/",
+  "vercelUrl": "https://three-creeds-20261114-v5-gtstudy.vercel.app/",
+  "vercelStatus": "V5 domain attached to existing project; verification pending",
   "releasePreserved": "v2.0.0-20261017-preserved-20261021",
-  "status": "all three production sites verified",
+  "status": "V5 prepared; see last verified V4 release until this build is published",
   "sourceAudit": {
-    "date": "2026-10-21",
+    "date": "2026-11-14",
     "liveUrls": 155,
     "sections": 232,
     "mismatches": 0
-  },
-  "sourceCommit": "48975aa4173d4cf3d3394090c34a8a727fef2c63",
-  "verified": "2026-10-24",
-  "workflowRuns": {
-    "pages": 40041108007,
-    "surgeAndVercel": 40041108058
-  },
-  "publicChecks": {
-    "hosts": 3,
-    "resourcesPerHost": 24,
-    "allHttp200": true,
-    "originalSectionsPerHost": 232,
-    "originalMismatches": 0,
-    "allPublicHTMLMatchesLocal": true,
-    "coreNotes": 38,
-    "historyCultureCards": 10,
-    "storyScenes": 5,
-    "conceptRoutes": 3,
-    "geographyMarkers": 11,
-    "onlineThemeAndNotes": "passed",
-    "mobileOverflow": false,
-    "consoleErrors": 0
   },
   "surgeCompatibilityUrl": "https://three-creeds-20261021-v3-gtstudy.surge.sh/",
   "v3Preserved": "v3.0.0-20261021-preserved-20261024",
   "vercelProjectId": "prj_OCM9MwEbSOAMQ2pgDflt8l5OsFMx",
   "vercelOrgId": "team_Wf2mIYmTmtSJvgOUqeQjBirL",
-  "vercelDeploymentId": "dpl_B8k2ZHbts5WQCfzN3FhwfThgLscX",
-  "vercelDeploymentStatus": "READY",
-  "compatibilityAliasVerified": true
+  "v4Preserved": "v4.0.0-20261024"
 }

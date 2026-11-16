@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-16",
+  "scope": "One live sample per service; OSM switching exercised with mocked tiles only.",
+  "results": [
+    {
+      "provider": "esri",
+      "status": 200,
+      "image": true,
+      "bytes": 15444
+    },
+    {
+      "provider": "topo",
+      "status": 200,
+      "image": true,
+      "bytes": 15238
+    },
+    {
+      "provider": "imagery",
+      "status": 200,
+      "image": true,
+      "bytes": 14265
+    },
+    {
+      "provider": "nasa",
+      "status": 200,
+      "image": true,
+      "bytes": 14515
+    }
+  ]
+}

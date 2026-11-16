@@ -1,18 +1,27 @@
-# 三大信经深读 · GTstudy V4
+# 三大信经深读 · GTstudy V5
 
-主题：**使徒信经 · 尼西亚信经 · 亚他那修信经**。版本标识：**three-creeds-20261024-v4-GTstudy**（2026-10-24 · v4.0.0）。
+主题：**使徒信经 · 尼西亚信经 · 亚他那修信经**。版本标识：**three-creeds-20261114-v5-GTstudy**（2026-11-14 版本标识 · v5.0.0）。
 
 ## 公开部署
 
 | 平台 | 地址 | 状态 |
 | --- | --- | --- |
 | GitHub Pages | https://07-je-gt-love-personal-20260918.github.io/three-creeds-GTstudy/ | 核对记录见 deployment.json |
-| Surge | https://three-creeds-20261024-v4-gtstudy.surge.sh/ | 核对记录见 deployment.json |
-| Vercel | https://three-creeds-20261024-v4-gtstudy.vercel.app/ | 已公开发布，核对记录见 deployment.json |
+| Surge | https://three-creeds-20261114-v5-gtstudy.surge.sh/ | 核对记录见 deployment.json |
+| Vercel | https://three-creeds-20261114-v5-gtstudy.vercel.app/ | 核对记录见 deployment.json |
 
 源码仓库：https://github.com/07-Je-GT-Love-Personal-20260918/three-creeds-GTstudy
 
 这是原仓库的重命名，编号仍为 **1423064988**；提交历史、权限、恢复标签与仓库密钥保留。稳定仓库名包含主题与GTstudy，部署版本名另含日期与版本号。
+
+## V5：年代证据、地图择源与笔记复习
+
+- 历史地图页增加九个历史节点、六条圣经与圣约研读链、三信经比较表、原创 24 秒无声中文字幕短片及文字版。历史与神学释义附 16 个来源，与 CCI 原文分开显示。
+- 本地历史示意不依赖地图商。手动可选 Esri 街道、地形、影像、OpenStreetMap 街道及 NASA NOAA-20 VIIRS 日期观测；自动模式在当前源完全无响应时依次换源。地图可收起、重试；影像可能缺测，不代表直播。
+- 「核心／分辨／待复习」标记预设、独立划线色及分类筛选；旧格式仍可导入，原文不受标记改写。跨域移动笔记请先导出再导入。
+- 视频不预载，离屏暂停；原生滚动、局部渲染及减少动态效果设置保留。七个页面的地址、书签和清读入口保持可用。
+- V4 保留在 [固定发布版 v4.0.0-20261024](https://github.com/07-Je-GT-Love-Personal-20260918/three-creeds-GTstudy/releases/tag/v4.0.0-20261024)，可下载源码或从该标签建分支恢复。旧 Surge 与 Vercel 网址仍可进入持续更新的版本。
+- 2026-11-14 复核 CCI 155 个来源链接与 232 个原文单元，忽略排版空白后零差异。史料拓展是有针对性的选读，未宣称已研读 CCI 全站所有内容。
 
 ## V4：历史 · 地图 · 文化（2026-10-24）
 

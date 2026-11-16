@@ -29,12 +29,21 @@ const status=q('#map-status'),providers={
  esri:{url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',attribution:'Tiles © Esri — Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>, GIS User Community',maxZoom:18},
  osm:{url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',attribution:'<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>',maxZoom:19}
 };
+Object.assign(providers,{
+ topo:{name:'Esri 地形',url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',attribution:'Tiles © Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, METI, NGCC, OpenStreetMap contributors and the GIS User Community',maxNativeZoom:18},
+ imagery:{name:'Esri 卫星影像',url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',attribution:'Tiles © Esri, Maxar, Earthstar Geographics and the GIS User Community',maxNativeZoom:18},
+ nasa:{name:'NASA 近实时观测',url:'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/{date}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg',attribution:'<a href="https://www.earthdata.nasa.gov/data/tools/gibs">NASA EOSDIS GIBS · NOAA-20 VIIRS</a>',maxNativeZoom:9}
+});
+providers.esri.name='Esri 街道';providers.osm.name='OpenStreetMap';
+const nasaDate=q('#nasa-date'),retry=q('#map-retry'),providerSelect=q('#map-provider');
+const dateOffset=days=>new Date(Date.now()-days*86400000).toISOString().slice(0,10);
+nasaDate.value=dateOffset(3);nasaDate.max=dateOffset(0);nasaDate.min='2018-01-05';
 function external(){const p=places[active];q('#map-external').href=`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`}
 function select(i,scroll=false){active=i;external();qa('[data-atlas-stop]').forEach(b=>b.setAttribute('aria-pressed',places[i].id===b.dataset.atlasStop));if(document.body.classList.contains('atlas-page')){
  qa('[data-place]').forEach(el=>{el.classList.toggle('active',Number(el.dataset.place)===i);el.setAttribute('aria-pressed',Number(el.dataset.place)===i)});
  const p=places[i],box=q('#place-info');box.replaceChildren();for(const [tag,text]of [['h3',p.name],['p',p.body],['p','文化与处境：'+p.culture],['small','约略坐标 '+p.lat+'°N, '+p.lon+'°E · 现代定位，不代表古代疆界']]){const el=document.createElement(tag);el.textContent=text;box.append(el)}
  }
- if(map){map.setView([places[i].lat,places[i].lon],8,{animate:false});markers[i]?.openPopup()}
+ if(map&&!q('#modern-map').hidden){map.setView([places[i].lat,places[i].lon],8,{animate:false});markers[i]?.openPopup()}
  if(scroll)q('.map-panel').scrollIntoView({block:'start',behavior:behavior()});
 }
 if(document.body.classList.contains('atlas-page')){
@@ -45,14 +54,49 @@ window.addEventListener('creed-place-change',e=>select(e.detail.index));
 qa('[data-atlas-stop]').forEach(b=>b.onclick=()=>{const i=places.findIndex(p=>p.id===b.dataset.atlasStop);if(i<0)return;if(document.body.classList.contains('atlas-page'))select(i,true);else{q('#map-buttons button[data-place="'+i+'"]').click();q('.map-panel').scrollIntoView({block:'start',behavior:behavior()})}});
 select(0);
 function leaflet(){if(window.L)return Promise.resolve();if(loadingPromise)return loadingPromise;loadingPromise=new Promise((resolve,reject)=>{const css=document.createElement('link');css.rel='stylesheet';css.href='vendor/leaflet/leaflet.css';document.head.append(css);const script=document.createElement('script');script.src='vendor/leaflet/leaflet.js';script.onload=resolve;script.onerror=()=>{script.remove();loadingPromise=null;reject(Error('local map library unavailable'))};document.head.append(script)});return loadingPromise}
-function setProvider(autoFallback=false){if(!map)return;clearTimeout(loadTimer);const myGeneration=++generation,chosen=q('#map-provider').value,provider=providers[chosen];if(layer)layer.remove();let successes=0,errors=0;status.textContent='正在连接 '+(chosen==='esri'?'Esri':'OpenStreetMap')+'；本地图仍可使用。';
- layer=L.tileLayer(provider.url,{attribution:provider.attribution,maxZoom:provider.maxZoom,keepBuffer:1,updateWhenIdle:true,updateWhenZooming:false}).addTo(map);
- layer.on('tileload',()=>{if(myGeneration!==generation)return;successes++;clearTimeout(loadTimer);status.textContent='在线底图已连接。可拖动、缩放，点击标记查看城市。'});
- function fail(){if(myGeneration!==generation||successes)return;if(chosen==='esri'&&!autoFallback){q('#map-provider').value='osm';status.textContent='主服务连接不佳，尝试备用服务。';setProvider(true)}else status.textContent='当前网络未能显示在线底图。请切换服务、打开外部地图，或继续使用上方本地图。'}
- layer.on('tileerror',()=>{errors++;if(errors>=3)fail()});loadTimer=setTimeout(fail,10000);
+function setProvider(queue){
+ if(!map||q('#modern-map').hidden)return;
+ const choice=providerSelect.value;
+ const remaining=queue|| (choice==='auto'?['esri','osm','nasa']:[choice]);
+ const [chosen,...fallback]=remaining, provider=providers[chosen];
+ clearTimeout(loadTimer);
+ const myGeneration=++generation;
+ if(layer)layer.remove();
+ retry.hidden=true;
+ q('#nasa-picker').hidden=choice!=='nasa';
+ const date=nasaDate.validity.valid&&nasaDate.value?nasaDate.value:dateOffset(3);
+ const label=provider.name+(chosen==='nasa'?' · '+date:'');
+ status.textContent='正在连接 '+label+'；本地历史图仍可使用。';
+ let successes=0,errors=0,finished=false;
+ const current=L.tileLayer(provider.url.replace('{date}',date),{
+   attribution:provider.attribution,maxNativeZoom:provider.maxNativeZoom||provider.maxZoom,maxZoom:19,keepBuffer:1,updateWhenIdle:true,updateWhenZooming:false
+ });
+ function settle(){
+   if(myGeneration!==generation||finished)return;
+   finished=true;clearTimeout(loadTimer);
+   if(successes){
+     status.textContent='在线底图已连接：'+label+(errors?' · 部分图块暂缺，可重试或换源。':' · 可拖动和缩放。');
+     retry.hidden=!errors;
+   }else if(fallback.length)setProvider(fallback);
+   else{
+     current.remove();layer=null;retry.hidden=false;
+     status.textContent='当前网络未能显示在线底图。请重试、手动换源，或阅读上方本地示意图。';
+   }
+ }
+ current.on('tileload',()=>{successes++});
+ current.on('tileerror',()=>{errors++});
+ current.on('loading',()=>{
+   if(myGeneration!==generation)return;
+   clearTimeout(loadTimer);successes=0;errors=0;finished=false;
+   loadTimer=setTimeout(settle,7000);
+ });
+ current.on('load',()=>queueMicrotask(settle));
+ layer=current;loadTimer=setTimeout(settle,7000);current.addTo(map);
 }
-q('#map-load').onclick=async()=>{q('#modern-map').hidden=false;q('#map-unload').hidden=false;q('#map-load').disabled=true;status.textContent='正在准备地图…';try{await leaflet();if(!map){map=L.map('modern-map',{scrollWheelZoom:false,zoomAnimation:!reduced.matches,fadeAnimation:false,preferCanvas:true}).setView([39,20],4);markers=places.map((p,i)=>{const icon=L.divIcon({className:'atlas-pin',html:'<span>'+(i+1)+'</span>',iconSize:[30,36],iconAnchor:[15,36]});const marker=L.marker([p.lat,p.lon],{icon,title:p.name});const label=document.createElement('div');const h=document.createElement('b');h.textContent=p.name;const t=document.createElement('p');t.textContent=p.body;label.append(h,t);marker.bindPopup(label);marker.addTo(map);return marker});map.fitBounds(places.map(p=>[p.lat,p.lon]),{padding:[28,28],maxZoom:5,animate:false});setProvider();loaded=true}else{map.invalidateSize();if(!layer)setProvider()}q('#map-load').textContent='◎ 地图已展开'}catch{q('#map-load').disabled=false;status.textContent='地图工具暂不能加载，请使用本地图或外部地图链接。'}};
-q('#map-provider').onchange=()=>{if(map&&loaded&&!q('#modern-map').hidden)setProvider();else status.textContent='已选择底图，点击“打开可拖动地图”连接。'};
+retry.onclick=()=>setProvider();
+nasaDate.onchange=()=>{if(nasaDate.value&&nasaDate.validity.valid)setProvider()};
+q('#map-load').onclick=async()=>{q('#modern-map').hidden=false;q('#map-unload').hidden=false;q('#map-load').disabled=true;status.textContent='正在准备地图…';try{await leaflet();if(q('#modern-map').hidden)return;if(!map){map=L.map('modern-map',{scrollWheelZoom:false,zoomAnimation:!reduced.matches,fadeAnimation:false,preferCanvas:true}).setView([39,20],4);markers=places.map((p,i)=>{const icon=L.divIcon({className:'atlas-pin',html:'<span>'+(i+1)+'</span>',iconSize:[30,36],iconAnchor:[15,36]});const marker=L.marker([p.lat,p.lon],{icon,title:p.name});const label=document.createElement('div');const h=document.createElement('b');h.textContent=p.name;const t=document.createElement('p');t.textContent=p.body;label.append(h,t);marker.bindPopup(label);marker.addTo(map);return marker});map.fitBounds(places.map(p=>[p.lat,p.lon]),{padding:[28,28],maxZoom:5,animate:false});setProvider();loaded=true}else{map.invalidateSize();if(!layer)setProvider()}q('#map-load').textContent='◎ 地图已展开'}catch{q('#map-load').disabled=false;status.textContent='地图工具暂不能加载，请使用本地图或外部地图链接。'}};
+q('#map-provider').onchange=()=>{q('#nasa-picker').hidden=providerSelect.value!=='nasa';if(map&&loaded&&!q('#modern-map').hidden)setProvider();else status.textContent='已选择底图，点击“打开可拖动地图”连接。'};
 q('#map-fit').onclick=()=>{if(map)map.fitBounds(places.map(p=>[p.lat,p.lon]),{padding:[28,28],animate:false});else status.textContent='先打开在线地图；所有地点也已显示在上方本地图中。'};
-q('#map-unload').onclick=()=>{generation++;clearTimeout(loadTimer);if(layer){layer.remove();layer=null}q('#modern-map').hidden=true;q('#map-unload').hidden=true;q('#map-load').disabled=false;q('#map-load').textContent='◎ 打开可拖动地图';status.textContent='已收起在线地图，停止新的底图请求。'};
+q('#map-unload').onclick=()=>{retry.hidden=true;generation++;clearTimeout(loadTimer);if(layer){layer.remove();layer=null}q('#modern-map').hidden=true;q('#map-unload').hidden=true;q('#map-load').disabled=false;q('#map-load').textContent='◎ 打开可拖动地图';status.textContent='已收起在线地图，停止新的底图请求。'};
 })();

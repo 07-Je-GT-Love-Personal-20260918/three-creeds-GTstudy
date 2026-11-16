@@ -1,0 +1,39 @@
+/* V5: restrained depth, high-contrast route colors and native scrolling. */
+:root{--trail:#087466;--trail2:#315ba0;--trail3:#875149}
+html[data-scheme=dark]{--trail:#84e5cb;--trail2:#a7c6ff;--trail3:#f2b6a8}
+.v5-trail-link{display:inline-flex;margin:.55rem 0 .55rem .8rem;padding:.55rem .9rem;border:1px solid var(--line);border-radius:999px;color:var(--trail);font-weight:700;text-decoration:none}
+.atlas-page .page-intro{background:radial-gradient(ellipse at top right,color-mix(in srgb,var(--trail) 12%,transparent),transparent 62%);border-radius:1.4rem}
+.route-card{border-top:3px solid var(--trail)}
+.route-card:nth-child(2){border-top-color:var(--trail2)}
+.route-card:nth-child(3){border-top-color:var(--trail3)}
+.v5-timeline{list-style:none;margin:1.4rem 0;padding:0;display:grid;gap:.65rem}
+.v5-timeline li{display:grid;grid-template-columns:minmax(5.2rem,8rem) minmax(0,1fr);gap:1rem;padding:.8rem 1rem;border-inline-start:3px solid var(--trail);background:color-mix(in srgb,var(--trail) 7%,transparent);border-radius:.3rem .8rem .8rem .3rem}
+.v5-timeline li:nth-child(3n+2){border-color:var(--trail2)}.v5-timeline li:nth-child(3n+3){border-color:var(--trail3)}
+.v5-timeline strong{color:var(--trail)}.v5-timeline p,.v5-chains dd{margin:.25rem 0 0;line-height:1.7}
+.v5-compare table{width:100%;table-layout:fixed;border-collapse:collapse}
+.v5-compare :is(td,th){border:1px solid var(--line);padding:.65rem;overflow-wrap:anywhere}
+.v5-compare th:first-child{width:22%;color:var(--trail2)}
+.v5-chains{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:.65rem;margin-top:1.1rem}
+.v5-chains details,.v5-film details{border:1px solid var(--line);border-radius:.7rem;padding:.7rem .9rem}
+.v5-chains summary,.v5-film summary{font-weight:750;cursor:pointer}
+.v5-chains dt{color:var(--trail);font-weight:750;margin-top:.6rem}
+.v5-film{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:1.25rem;align-items:start}
+.v5-film video{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:1rem;background:#102538}
+.v5-flow{padding:0;list-style:none;display:grid;gap:.55rem}
+.v5-flow li{display:grid;gap:.2rem;border-inline-start:3px solid var(--trail2);padding:.45rem .7rem;border-radius:.3rem;background:color-mix(in srgb,var(--trail2) 8%,transparent)}
+.map-extra,.v5-presets{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.map-extra{margin:.6rem 0}.map-extra label,.v5-note-filter{display:flex;gap:.45rem;align-items:center;flex-wrap:wrap}
+.map-extra input,.v5-note-filter select{max-width:100%;color:inherit;border:1px solid var(--line);padding:.35rem;background:var(--paper)}
+.v5-presets button{border-radius:999px;padding:.35rem .7rem;color:var(--trail2)}
+.v5-presets button[aria-pressed=true]{outline:2px solid currentColor;outline-offset:1px}
+.v5-note-filter{margin:.5rem 0}.note-style-tags{overflow-wrap:anywhere}
+#modern-map{background:color-mix(in srgb,var(--trail2) 13%,var(--paper));isolation:isolate}
+#modern-map .leaflet-control-attribution{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+@supports(content-visibility:auto){.atlas-page .culture-card{content-visibility:auto;contain-intrinsic-block-size:auto 290px}.personal-note-card{content-visibility:auto;contain-intrinsic-block-size:auto 130px}}
+@media(max-width:720px){.v5-chains,.v5-film{grid-template-columns:minmax(0,1fr)}.v5-timeline li{grid-template-columns:1fr;gap:.2rem}.v5-trail-link{margin-inline-start:0}.mark-style-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr))}}
+@media(max-width:370px){.v5-compare :is(td,th){padding:.35rem;font-size:.89rem}.v5-compare th:first-child{width:24%}}
+@media(prefers-reduced-motion:reduce){.v5-trail-link{transition:none}}
+
+
+/* Keep the rotated ornament within its grid cell; labels stay unclipped. */
+.hero-collage .collage-orbit{inset:8%}

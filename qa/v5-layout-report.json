@@ -1,0 +1,62 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 375,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 430,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 768,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 1024,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 1440,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    },
+    {
+      "width": 1920,
+      "pages": 7,
+      "expansionRepeats": 3,
+      "mapFallbackAndRetry": true,
+      "video": true,
+      "notePersistence": true
+    }
+  ],
+  "errors": [],
+  "checked": "2026-11-16T00:15:31.401Z"
+}

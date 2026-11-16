@@ -184,4 +184,6 @@ if docs:
 atlas_data=build_atlas(ROOT,fw,map_svg())
 enhance_pages(ROOT)
 enhance_v4(ROOT,fw,atlas_data)
+from edition_v5 import enrich
+enrich(ROOT)
 print(f'Built {len(html):,} characters; 38 commentary units; {len(ids)} unique anchors.')

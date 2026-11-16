@@ -14,7 +14,6 @@ jobs:
     env:
       VERCEL_ORG_ID: team_Wf2mIYmTmtSJvgOUqeQjBirL
       VERCEL_PROJECT_ID: prj_OCM9MwEbSOAMQ2pgDflt8l5OsFMx
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,10 +21,22 @@ jobs:
           node-version: '22'
       - name: Link the verified Vercel project
         run: node -e "const fs=require('fs');fs.mkdirSync('.vercel',{recursive:true});fs.writeFileSync('.vercel/project.json',JSON.stringify({orgId:process.env.VERCEL_ORG_ID,projectId:process.env.VERCEL_PROJECT_ID,projectName:'three-creeds-20261024-v4-gtstudy'}))"
-      - name: Inspect intended target
-        run: npx --yes vercel@50.1.5 project inspect three-creeds-20261024-v4-gtstudy --scope abners-projects-6f97a189 --token "$VERCEL_TOKEN"
-      - name: Publish Vercel production
-        run: npx --yes vercel@50.1.5 deploy --prod --yes --scope abners-projects-6f97a189 --token "$VERCEL_TOKEN"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build and verify static output
+        run: |
+          python -W error build.py
+          python qa/check-build.py
+      - name: Package the verified static site
+        run: |
+          mkdir -p .vercel/output/static
+          cp -R dist/. .vercel/output/static/
+          printf '{"version":3}\n' > .vercel/output/config.json
+      - name: Publish the verified Vercel output
+        run: npx --yes vercel@50.1.5 deploy --prebuilt --prod --yes --scope abners-projects-6f97a189 --token "$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   surge:
     runs-on: ubuntu-latest
     steps:
@@ -36,9 +47,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: python build.py
+      - run: python -W error build.py && python qa/check-build.py
       - name: Publish Surge
         run: |
+          npx --yes surge@0.44.6 ./dist three-creeds-20261114-v5-gtstudy.surge.sh
           npx --yes surge@0.44.6 ./dist three-creeds-20261024-v4-gtstudy.surge.sh
           npx --yes surge@0.44.6 ./dist three-creeds-20261021-v3-gtstudy.surge.sh
         env:
