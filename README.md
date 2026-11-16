@@ -23,6 +23,13 @@
 - V4 保留在 [固定发布版 v4.0.0-20261024](https://github.com/07-Je-GT-Love-Personal-20260918/three-creeds-GTstudy/releases/tag/v4.0.0-20261024)，可下载源码或从该标签建分支恢复。旧 Surge 与 Vercel 网址仍可进入持续更新的版本。
 - 2026-11-14 复核 CCI 155 个来源链接与 232 个原文单元，忽略排版空白后零差异。史料拓展是有针对性的选读，未宣称已研读 CCI 全站所有内容。
 
+### V5 验收（2026-11-16）
+
+- 三站各 28 项资源全部返回成功；六套原典每站各 232 单元一致。线上复测短片播放、地图定位、主题与笔记保存。
+- Edge 本地浏览器覆盖 320、375、430、768、1024、1440、1920 像素视口，逐页检查，反复展开历史、图解和导航，验证地图失败择源与重试、笔记样式和筛选。
+- 图块测试为 Esri 三组及 NASA 各一张真实样例；OpenStreetMap 回退与网络故障使用模拟请求。生产资源记录见 `qa/v5-public-report.json`，交互及布局记录见 `qa/v5-live-report.json` 和 `qa/v5-layout-report.json`。
+- 固定发布：[V5 源码快照](https://github.com/07-Je-GT-Love-Personal-20260918/three-creeds-GTstudy/releases/tag/v5.0.0-20261114)。
+
 ## V4：历史 · 地图 · 文化（2026-10-24）
 
 - 新增 `atlas.html` 独立学习页：三条概念示意、11个地理标记、10个历史文化现场、五步故事演示、希腊语与拉丁语表达对照。15项史料链接随条目列出。强调325/381/451年的文本层次、作者与传统名称的区别；南高卢仅为可能形成区域。
@@ -101,7 +108,7 @@ python -m http.server 4173 -d dist
 
 主要源文件：`edition_v4.py`、`build.py`、`edition_v2.py`、`edition_v3.py`、`library.py`、模板及 `content/`。V3界面资源为 `dist/theme-init.js`、`dist/study.js`、`dist/study.css`。
 
-推送main后，GitHub Actions发布Pages、Surge与Vercel；Pages使用OIDC，Surge使用仓库Secret `SURGE_TOKEN`，Vercel使用加密仓库Secret `VERCEL_TOKEN`。Vercel账号已核对为指定邮箱，项目固定为 `three-creeds-20261024-v4-gtstudy`，构建配置见 `vercel.json`。通过Actions持续发布，不依赖Vercel GitHub App取得仓库权限。凭据不入库，`.vercel/`、`.netlify/`及本地环境文件均忽略。
+推送 main 自动发布 GitHub Pages 和 Surge。Vercel V5 已通过已登录的 CLI 发布，并验收公开域名；下一次可用已链接账号在仓库目录运行 `vercel deploy --prod`。Vercel 自动发布任务已保留，由组织管理员在 GitHub Actions Secrets 更新对本项目有效的 `VERCEL_TOKEN`、设置 Actions Variable `VERCEL_AUTODEPLOY=true` 后启用。原凭据被 Vercel 拒绝，现有会话也未获创建项目凭据、连接该仓库的权限。凭据不入库。
 
 检查覆盖320/390/820/1440/1920px宽度、横向溢出、标题遮挡、图片、原典、四套配色、夜读、主题持久化、叠加标记、笔记编辑、导出导入、跨阅读页标记、字号、地图、动画及背诵。证据保存在 `qa/`；线上核验以 `deployment.json` 为准。
 

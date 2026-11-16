@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   vercel:
+    if: vars.VERCEL_AUTODEPLOY == 'true'
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: team_Wf2mIYmTmtSJvgOUqeQjBirL

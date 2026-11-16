@@ -7,9 +7,9 @@
   "githubPagesUrl": "https://07-je-gt-love-personal-20260918.github.io/three-creeds-GTstudy/",
   "surgeUrl": "https://three-creeds-20261114-v5-gtstudy.surge.sh/",
   "vercelUrl": "https://three-creeds-20261114-v5-gtstudy.vercel.app/",
-  "vercelStatus": "V5 domain attached to existing project; verification pending",
+  "vercelStatus": "Published and verified via authenticated CLI; automatic publish requires renewed access",
   "releasePreserved": "v2.0.0-20261017-preserved-20261021",
-  "status": "V5 prepared; see last verified V4 release until this build is published",
+  "status": "all three V5 public deployments verified",
   "sourceAudit": {
     "date": "2026-11-14",
     "liveUrls": 155,
@@ -20,5 +20,30 @@
   "v3Preserved": "v3.0.0-20261021-preserved-20261024",
   "vercelProjectId": "prj_OCM9MwEbSOAMQ2pgDflt8l5OsFMx",
   "vercelOrgId": "team_Wf2mIYmTmtSJvgOUqeQjBirL",
-  "v4Preserved": "v4.0.0-20261024"
+  "v4Preserved": "v4.0.0-20261024",
+  "verified": "2026-11-16",
+  "sourceCommit": "106172666079255fcc403e93b3694ee2bd4a7d8f",
+  "workflowRuns": {
+    "pages": 43779390836,
+    "surgeAndVercel": 43779390893,
+    "surgeJob": "success",
+    "vercelJob": "credential rejected"
+  },
+  "vercelInspection": "https://vercel.com/abners-projects-6f97a189/three-creeds-20261024-v4-gtstudy/ABLyJzdL4Z3bVK8sbtH7nnf8eWUu",
+  "publicChecks": {
+    "hosts": 3,
+    "resourcesPerHost": 28,
+    "originalSectionsPerHost": 232,
+    "originalMismatches": 0,
+    "browserSmokeTests": 3,
+    "localViewportWidths": [
+      320,
+      375,
+      430,
+      768,
+      1024,
+      1440,
+      1920
+    ]
+  }
 }

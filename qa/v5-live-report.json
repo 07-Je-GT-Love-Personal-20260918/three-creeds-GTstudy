@@ -1,0 +1,38 @@
+{
+  "checked": "2026-11-16T00:18:58.377Z",
+  "results": [
+    {
+      "film": "24s playback passed",
+      "historyCulture": "10 cards / 5 scenes / 3 diagrams; map point navigation pass",
+      "host": "https://07-je-gt-love-personal-20260918.github.io/three-creeds-GTstudy/",
+      "http": 200,
+      "coreNotes": 38,
+      "themes": "switch and persist",
+      "marks": "save and persist",
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "film": "24s playback passed",
+      "historyCulture": "10 cards / 5 scenes / 3 diagrams; map point navigation pass",
+      "host": "https://three-creeds-20261114-v5-gtstudy.surge.sh/",
+      "http": 200,
+      "coreNotes": 38,
+      "themes": "switch and persist",
+      "marks": "save and persist",
+      "mobileOverflow": false,
+      "errors": []
+    },
+    {
+      "film": "24s playback passed",
+      "historyCulture": "10 cards / 5 scenes / 3 diagrams; map point navigation pass",
+      "host": "https://three-creeds-20261114-v5-gtstudy.vercel.app/",
+      "http": 200,
+      "coreNotes": 38,
+      "themes": "switch and persist",
+      "marks": "save and persist",
+      "mobileOverflow": false,
+      "errors": []
+    }
+  ]
+}
